@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<script src="/js/vue.js"></script>
+	<title>Document</title>
+</head>
+<body>
+	
+	<div class="wrapper">
+		<div class="sample">
+			FN: <input type="text" v-model="firstName"> <br>
+			LN: <input type="text" v-model="lastName">
+			<hr>
+
+			<h2>Hello, {{ fullName() }}</h2>
+
+			<hr>
+
+			<button type="button" class="btn btn-primary" v-on:click="showAlert = !showAlert">
+				Click
+			</button>
+			<div class="alert alert-danger" v-show="showAlert">
+				Help! ME
+			</div>
+
+		</div>
+	</div>
+
+
+	<script>
+
+		let app = Vue.createApp({
+			data: () => ({
+				firstName: '21',
+				lastName: '22',
+				showAlert: false
+			}),
+			methods: {
+				fullName(){
+					console.log(1);
+					return this.firstName + ' ' + this.lastName;
+				}
+			}
+		});
+
+		app.mount('.sample');
+
+	</script>
+
+</body>
+</html>
