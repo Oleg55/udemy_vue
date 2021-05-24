@@ -15,7 +15,7 @@
 <body>
     <div class="wrapper">
         <div class="sample">
-            <input type="text" v-bind:value="name" v-on:input="onInput">
+            <input type="text" v-bind:value="name" v-on:input="name = $event.target.value">
             <hr>
             <h2> Hello, {{ name }}</h2>
         </div>
@@ -26,13 +26,7 @@
         let app = Vue.createApp({
             data: () => ({
                 name: '23'
-            }),
-
-            methods: {
-                onInput(){
-                    console.log('1');
-                }
-            }
+            })
         });
 
         app.mount('.sample');
