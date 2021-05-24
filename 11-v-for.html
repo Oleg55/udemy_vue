@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<script src="/js/vue.js"></script>
+	<title>Document</title>
+</head>
+<body>
+	<!-- Популярные вызовы v-for
+	v-for="number in array"
+	v-for="number, key in array"
+
+	v-for="value in obj"
+	v-for="value, key in obj"
+	v-for="value, key , i in obj" { a : 100, b:200 }
+	value = 100; key = a; i = 0
+	value = 200; key = b; i = 1
+
+	(number, i) in numbers можно и скобки для наглядности
+	-->
+	<div class="wrapper">
+		<div class="sample">
+			<ul class="list-group">
+				<li class="list-group-item" v-for="(number, i) in numbers" >
+					<span >	
+						{{ i }} | {{ number }}
+					</span>
+				</li>
+			</ul>
+
+		</div>
+	</div>
+
+
+	<script>
+
+
+		let app = Vue.createApp({
+			data: () => ({
+				numbers: [1.5,2.5],
+
+				
+			}),
+			computed: {
+
+			}
+		});
+
+		app.mount('.sample');
+
+	</script>
+
+</body>
+</html>

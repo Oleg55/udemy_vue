@@ -35,24 +35,22 @@
 			let codes = {
 				some: 10,
 				other: 20
-			}
+			};
 
 			setTimeout(function(){
-				return codes.hasOwnProperty(promoCode) ? codes[promoCode] : 0;
-			},500)
+				onComplete(codes.hasOwnProperty(promoCode) ? codes[promoCode] : 0);
+			}, 500)
 			
 		}
 
 		let app = Vue.createApp({
 			data: () => ({
 				promoCode: '',
-				price: 1000,
-                sale: 0
-
+				sale: 0,
+				price: 1000
+        
 			}),
 			computed: {
-
-
 				hasSale() {
 					return this.sale > 0;
 				},
@@ -60,15 +58,15 @@
 					return this.price * (1 - this.sale / 100);
 				}
 			},
-            watch: {
-                promo() {
-                    
-					 getSale(this.promoCode, function(sale){
-						 console.log(sale);
-					 });
-				
-                }
-            }
+				watch: {
+						promoCode() {
+									
+							getSale(this.promoCode, (sale) => {
+								this.sale = sale;
+							});
+		
+						}
+				}
 		});
 
 		app.mount('.sample');
