@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<script src="/js/vue.js"></script>
+	<title>Document</title>
+	<style>
+		.sample {
+			margin: 20px;
+		}
+		.sample input {
+			width: 50%;
+			margin-bottom: 20px;
+		}
+
+		.guest-tr td:not(:first-child){
+			display: block;
+		}
+	</style>
+</head>
+<body>
+	<!-- Популярные вызовы v-for
+	v-for="number in array"
+	v-for="number, key in array"
+
+	v-for="value in obj"
+	v-for="value, key in obj"
+	v-for="value, key , i in obj" { a : 100, b:200 }
+	value = 100; key = a; i = 0
+	value = 200; key = b; i = 1
+
+	(number, i) in numbers можно и скобки для наглядности
+	-->
+	<div class="wrapper">
+		<div class="sample">
+
+			<div class="form-input" v-show="showBlock">
+				<div class="email">
+					<div>Email</div>
+					<input type="text" v-model="email">
+				</div>
+
+				<div class="phone" >
+					<div>Phone</div>
+
+					<input type="text" v-model="phone">
+				</div>
+
+				<div class="f-name" >
+					<div>First Name</div>
+					
+					<input type="text" v-model="f_name">
+				</div>
+
+				<div class="l-name" >
+					<div>Last Name</div>
+					<input type="text" v-model="l_name">
+				</div>
+
+
+
+				<div class="guests" >
+					<div>Guest</div>
+					<button class="btn btn-primary" v-on:click="addInput(i)">
+						+
+					</button>
+
+				</div>
+
+				<ul class="list-group" >
+					<li class="list-group-item" v-for="(inputArra, i) in inputArray">
+
+							<input type="text" v-bind:id="'na_'+ i" v-model="inputArray[i]">
+							<button v-on:click="remove(i)">Удалить</button>
+						
+					</li>
+				</ul>
+
+				<button class="btn btn-success" v-bind:disabled="onCheck()" 
+								v-on:click="showTable">
+					Send Data
+				</button>
+
+			</div>
+
+			<div class="form-output" v-show="!showBlock">
+				<table>
+					<tr>
+						<td>Email</td>
+						<td>{{ email }}</td>
+					</tr>
+					<tr>
+						<td>Phone</td>
+						<td>{{ phone }}</td>
+					</tr>
+					<tr>
+						<td>Full Name</td>
+						<td>{{ f_name }} {{ l_name }}</td>
+					</tr>
+					<tr class="guest-tr">
+						<td>Guests</td>
+						
+							<td v-for="(inputArr, z) in inputArraySecond">
+								{{ inputArraySecond[z] }}
+							</td>
+						
+					</tr>
+					
+				</table>
+			</div>
+		</div>
+
+	</div>
+
+
+	<script>
+
+
+		let app = Vue.createApp({
+			data: () => ({
+				email: '',
+				phone: '',
+				l_name: '',
+				f_name: '',
+				disableButton: false,
+				newGuest: '',
+				inputArray: [],
+				inputArraySecond: [],
+				showBlock: true
+			}),
+			methods: {
+				addInput(i) {
+					this.inputArray.push(this.inputArray[i]);
+					console.log('add');
+				},
+				onCheck() {
+					if(	this.email.length != 0 && 
+							this.phone.length != 0 && 
+							this.l_name.length != 0 &&
+					 		this.l_name.length != 0 && 
+							this.f_name.length != 0 )
+						{
+							this.disableButton =  false;
+						}else {
+						this.disableButton = true;
+						}
+
+					return this.disableButton;
+				},
+				remove(i) {
+					this.inputArray.splice(i, 1);
+					console.log('rem()');
+				},
+				showTable(){
+					console.log(this.inputArray);
+
+
+					// for (let i = 0; i <=  this.inputArray.length; i++){
+					// 	//console.log(this.inputArray.length );
+					// 	if(this.inputArray[i] != undefined || this.inputArray[i] != ''){
+					// 		// console.log(i + ' = ' + this.inputArray[i]);
+					// 		// console.log(this.inputArray[i]);
+					// 		// this.inputArray.splice(i, 1);
+					// 		// console.log(this.inputArray);
+
+					// 		console.log('und');
+							
+					// 	}else {
+							for (let z = 0; z <=  this.inputArray.length; z++){
+								if (this.inputArray[z] != undefined){
+										this.inputArraySecond.push(this.inputArray[z]);
+									console.log(this.inputArraySecond[z]);
+									console.log(this.inputArray[z]);
+								}
+
+							// }
+
+						// }
+					}
+
+					// this.inputArray.forEach(function(item, i, inputArray) {
+					// 	if(inputArray[i] == undefined){
+					// 		console.log(i + '=' + inputArray[i]);
+					// 		console.log(item[i]);
+					// 		item.splice(i, 1)
+					// 	}
+					// });
+							return this.showBlock = false;
+				}
+			}
+		});
+
+		app.mount('.sample');
+
+	</script>
+
+</body>
+</html>

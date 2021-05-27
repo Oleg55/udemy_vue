@@ -26,7 +26,8 @@
 	<div class="wrapper">
 		<div class="sample">
 			<ul class="list-group">
-				<li class="list-group-item" v-for="(number, i) in numbers" >
+				<li class="list-group-item" v-for="(number, i) in numbers" 
+						v-on:click="onDouble(i)" >
 					<span >	
 						{{ i }} | {{ number }}
 					</span>
@@ -46,8 +47,11 @@
 
 				
 			}),
-			computed: {
-
+			methods: {
+				onDouble(i) {
+					this.numbers[i]  = this.numbers[i]* 2;
+					console.log(1);
+				}
 			}
 		});
 
