@@ -105,8 +105,8 @@
 					<tr class="guest-tr">
 						<td>Guests</td>
 						
-							<td v-for="(inputArr, z) in inputArraySecond">
-								{{ inputArraySecond[z] }}
+							<td v-for="(inputArr, i) in inputArraySecond">
+								{{ inputArraySecond[i] }}
 							</td>
 						
 					</tr>
@@ -159,37 +159,12 @@
 				showTable(){
 					console.log(this.inputArray);
 
-
-					// for (let i = 0; i <=  this.inputArray.length; i++){
-					// 	//console.log(this.inputArray.length );
-					// 	if(this.inputArray[i] != undefined || this.inputArray[i] != ''){
-					// 		// console.log(i + ' = ' + this.inputArray[i]);
-					// 		// console.log(this.inputArray[i]);
-					// 		// this.inputArray.splice(i, 1);
-					// 		// console.log(this.inputArray);
-
-					// 		console.log('und');
-							
-					// 	}else {
-							for (let z = 0; z <=  this.inputArray.length; z++){
-								if (this.inputArray[z] != undefined){
-										this.inputArraySecond.push(this.inputArray[z]);
-									console.log(this.inputArraySecond[z]);
-									console.log(this.inputArray[z]);
+							for (let i = 0; i <=  this.inputArray.length; i++){
+								if (this.inputArray[i] != undefined){
+										this.inputArraySecond.push(this.inputArray[i]);
 								}
-
-							// }
-
-						// }
 					}
 
-					// this.inputArray.forEach(function(item, i, inputArray) {
-					// 	if(inputArray[i] == undefined){
-					// 		console.log(i + '=' + inputArray[i]);
-					// 		console.log(item[i]);
-					// 		item.splice(i, 1)
-					// 	}
-					// });
 							return this.showBlock = false;
 				}
 			}
