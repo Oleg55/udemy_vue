@@ -100,7 +100,7 @@
 					</tr>
 					<tr>
 						<td>Full Name</td>
-						<td>{{ f_name }} {{ l_name }}</td>
+						<td>{{ fullName }}</td>
 					</tr>
 					<tr class="guest-tr">
 						<td>Guests</td>
@@ -155,9 +155,6 @@
 					this.inputArray.splice(i, 1);
 				},
 				showTable(){
-					console.log(this.inputArray);
-
-
 							for (let i = 0; i <=  this.inputArray.length; i++){
 								if (this.inputArray[i] != undefined && this.inputArray[i].length != 0){
 										this.inputArraySecond.push(this.inputArray[i]);
@@ -165,6 +162,11 @@
 					}
 
 							return this.showBlock = false;
+				}
+			}, 
+			computed: {
+				fullName() {
+					return `${this.f_name}  ${this.l_name}`;
 				}
 			}
 		});
