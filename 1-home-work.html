@@ -39,7 +39,7 @@
 	<div class="wrapper">
 		<div class="sample">
 
-			<div class="form-input" v-show="showBlock">
+			<div class="form-input" v-if="showBlock">
 				<div class="email">
 					<div>Email</div>
 					<input type="text" v-model="email">
@@ -75,7 +75,7 @@
 				<ul class="list-group" >
 					<li class="list-group-item" v-for="(inputArra, i) in inputArray">
 
-							<input type="text" v-bind:id="'na_'+ i" v-model="inputArray[i]">
+							<input type="text"  v-model.trim="inputArray[i]">
 							<button v-on:click="remove(i)">Удалить</button>
 						
 					</li>
@@ -157,8 +157,9 @@
 				showTable(){
 					console.log(this.inputArray);
 
+
 							for (let i = 0; i <=  this.inputArray.length; i++){
-								if (this.inputArray[i] != undefined){
+								if (this.inputArray[i] != undefined && this.inputArray[i].length != 0){
 										this.inputArraySecond.push(this.inputArray[i]);
 								}
 					}
