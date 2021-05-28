@@ -42,24 +42,24 @@
 			<div class="form-input" v-if="showBlock">
 				<div class="email">
 					<div>Email</div>
-					<input type="text" v-model.trim="email">
+					<input type="text" v-model.trim="formData.email">
 				</div>
 
 				<div class="phone" >
 					<div>Phone</div>
 
-					<input type="text" v-model.trim="phone">
+					<input type="text" v-model.trim="formData.phone">
 				</div>
 
 				<div class="f-name" >
 					<div>First Name</div>
 					
-					<input type="text" v-model.trim="f_name">
+					<input type="text" v-model.trim="formData.f_name">
 				</div>
 
 				<div class="l-name" >
 					<div>Last Name</div>
-					<input type="text" v-model.trim="l_name">
+					<input type="text" v-model.trim="formData.l_name">
 				</div>
 
 
@@ -81,7 +81,7 @@
 					</li>
 				</ul>
 
-				<button class="btn btn-success" v-bind:disabled="onCheck()" 
+				<button class="btn btn-success" v-bind:disabled="onCheck" 
 								v-on:click="showTable">
 					Send Data
 				</button>
@@ -92,11 +92,11 @@
 				<table>
 					<tr>
 						<td>Email</td>
-						<td>{{ email }}</td>
+						<td>{{ formData.email }}</td>
 					</tr>
 					<tr>
 						<td>Phone</td>
-						<td>{{ phone }}</td>
+						<td>{{ formData.phone }}</td>
 					</tr>
 					<tr>
 						<td>Full Name</td>
@@ -123,10 +123,13 @@
 
 		let app = Vue.createApp({
 			data: () => ({
-				email: '',
-				phone: '',
-				l_name: '',
-				f_name: '',
+				formData: {
+					email: '',
+					phone: '',
+					l_name: '',
+					f_name: '',
+				},
+
 				disableButton: false,
 				inputArray: [],
 				inputArraySecond: [],
@@ -136,12 +139,35 @@
 				addInput(i) {
 					this.inputArray.push(this.inputArray[i]);
 				},
+				remove(i) {
+					this.inputArray.splice(i, 1);
+				},
+				showTable(){
+					// 		for (let i = 0; i <=  this.inputArray.length; i++){
+					// 			if (this.inputArray[i] != undefined && this.inputArray[i].trim() != ''){
+					// 					this.inputArraySecond.push(this.inputArray[i]);
+					// 			}
+					// }
+					this.inputArray.forEach(element => {
+						console.log(element)
+						if (element != undefined && element.trim() != ''){
+										this.inputArraySecond.push(element);
+					 		}
+					});
+
+							return this.showBlock = false;
+				}
+			}, 
+			computed: {
+				fullName() {
+					return `${this.formData.f_name}  ${this.formData.l_name}`;
+				},
 				onCheck() {
-					if(	this.email != '' && 
-							this.phone != '' && 
-							this.l_name != '' &&
-					 		this.l_name != '' && 
-							this.f_name != '' )
+					if(	this.formData.email != '' && 
+							this.formData.phone != '' && 
+							this.formData.l_name != '' &&
+					 		this.formData.l_name != '' && 
+							this.formData.f_name != '' )
 						{
 							this.disableButton =  false;
 						}else {
@@ -149,23 +175,6 @@
 						}
 
 					return this.disableButton;
-				},
-				remove(i) {
-					this.inputArray.splice(i, 1);
-				},
-				showTable(){
-							for (let i = 0; i <=  this.inputArray.length; i++){
-								if (this.inputArray[i] != undefined && this.inputArray[i].length != 0){
-										this.inputArraySecond.push(this.inputArray[i]);
-								}
-					}
-
-							return this.showBlock = false;
-				}
-			}, 
-			computed: {
-				fullName() {
-					return `${this.f_name}  ${this.l_name}`;
 				}
 			}
 		});
