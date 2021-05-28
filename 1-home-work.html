@@ -75,12 +75,12 @@
 				<ul class="list-group" >
 					<li class="list-group-item" v-for="(inputArra, i) in inputArray">
 
-							<input type="text"  v-model.trim="inputArray[i]">
+							<input type="text"  v-model.trim="inputArra.name">
 							<button v-on:click="remove(i)">Удалить</button>
 						
 					</li>
 				</ul>
-
+				{{ inputArray }}
 				<button class="btn btn-success" v-bind:disabled="onCheck" 
 								v-on:click="showTable">
 					Send Data
@@ -105,8 +105,12 @@
 					<tr class="guest-tr">
 						<td>Guests</td>
 						
-							<td v-for="(inputArr, i) in inputArraySecond">
-								{{ inputArraySecond[i] }}
+							<td>
+								<ul class="list-group">
+									<li class="list-group-item" v-for="inputArra in inputArray">
+										{{inputArra.name}}
+									</li>
+								</ul>
 							</td>
 						
 					</tr>
@@ -137,17 +141,13 @@
 			}),
 			methods: {
 				addInput(i) {
-					this.inputArray.push(this.inputArray[i]);
+					return this.inputArray.push({ name: ''});
 				},
 				remove(i) {
 					this.inputArray.splice(i, 1);
 				},
 				showTable(){
-					this.inputArray.forEach(element => {
-						if (element != undefined && element.trim() != '') {
-									this.inputArraySecond.push(element);
-					 		}
-					});
+							this.inputArray = this.inputArray.filter(inputArra => inputArra.name !== '');
 							return this.showBlock = false;
 				}
 			}, 
