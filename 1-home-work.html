@@ -143,18 +143,11 @@
 					this.inputArray.splice(i, 1);
 				},
 				showTable(){
-					// 		for (let i = 0; i <=  this.inputArray.length; i++){
-					// 			if (this.inputArray[i] != undefined && this.inputArray[i].trim() != ''){
-					// 					this.inputArraySecond.push(this.inputArray[i]);
-					// 			}
-					// }
 					this.inputArray.forEach(element => {
-						console.log(element)
-						if (element != undefined && element.trim() != ''){
-										this.inputArraySecond.push(element);
+						if (element != undefined && element.trim() != '') {
+									this.inputArraySecond.push(element);
 					 		}
 					});
-
 							return this.showBlock = false;
 				}
 			}, 
