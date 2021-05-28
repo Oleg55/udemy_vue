@@ -42,24 +42,24 @@
 			<div class="form-input" v-if="showBlock">
 				<div class="email">
 					<div>Email</div>
-					<input type="text" v-model="email">
+					<input type="text" v-model.trim="email">
 				</div>
 
 				<div class="phone" >
 					<div>Phone</div>
 
-					<input type="text" v-model="phone">
+					<input type="text" v-model.trim="phone">
 				</div>
 
 				<div class="f-name" >
 					<div>First Name</div>
 					
-					<input type="text" v-model="f_name">
+					<input type="text" v-model.trim="f_name">
 				</div>
 
 				<div class="l-name" >
 					<div>Last Name</div>
-					<input type="text" v-model="l_name">
+					<input type="text" v-model.trim="l_name">
 				</div>
 
 
@@ -128,7 +128,6 @@
 				l_name: '',
 				f_name: '',
 				disableButton: false,
-				newGuest: '',
 				inputArray: [],
 				inputArraySecond: [],
 				showBlock: true
@@ -138,11 +137,11 @@
 					this.inputArray.push(this.inputArray[i]);
 				},
 				onCheck() {
-					if(	this.email.length != 0 && 
-							this.phone.length != 0 && 
-							this.l_name.length != 0 &&
-					 		this.l_name.length != 0 && 
-							this.f_name.length != 0 )
+					if(	this.email != '' && 
+							this.phone != '' && 
+							this.l_name != '' &&
+					 		this.l_name != '' && 
+							this.f_name != '' )
 						{
 							this.disableButton =  false;
 						}else {
