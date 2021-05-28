@@ -88,7 +88,7 @@
 
 			</div>
 
-			<div class="form-output" v-show="!showBlock">
+			<div class="form-output" v-if="!showBlock">
 				<table>
 					<tr>
 						<td>Email</td>
@@ -136,7 +136,6 @@
 			methods: {
 				addInput(i) {
 					this.inputArray.push(this.inputArray[i]);
-					console.log('add');
 				},
 				onCheck() {
 					if(	this.email.length != 0 && 
@@ -154,7 +153,6 @@
 				},
 				remove(i) {
 					this.inputArray.splice(i, 1);
-					console.log('rem()');
 				},
 				showTable(){
 					console.log(this.inputArray);
