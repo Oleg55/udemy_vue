@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<script src="/js/vue.js"></script>
+	<title>Document</title>
+	<style>
+		.sample {
+			margin: 20px;
+		}
+		.sample input {
+			width: 50%;
+			margin-bottom: 20px;
+		}
+
+		.guest-tr td:not(:first-child){
+			display: block;
+		}
+	</style>
+</head>
+<body>
+	<!-- Популярные вызовы v-for
+	v-for="number in array"
+	v-for="number, key in array"
+
+	v-for="value in obj"
+	v-for="value, key in obj"
+	v-for="value, key , i in obj" { a : 100, b:200 }
+	value = 100; key = a; i = 0
+	value = 200; key = b; i = 1
+
+	(number, i) in numbers можно и скобки для наглядности
+	-->
+	<div class="wrapper">
+		<div class="sample">
+
+			<div class="form-input" v-if="showBlock">
+				<div class="email">
+					<div>Email</div>
+					<input type="text" v-model.trim="formData.email" ref="firstInp">
+				</div>
+
+				<div class="phone" >
+					<div>Phone</div>
+
+					<input type="text" v-model.trim="formData.phone">
+				</div>
+
+				<div class="f-name" >
+					<div>First Name</div>
+					
+					<input type="text" v-model.trim="formData.f_name">
+				</div>
+
+				<div class="l-name" >
+					<div>Last Name</div>
+					<input type="text" v-model.trim="formData.l_name">
+				</div>
+
+
+
+				<div class="guests" >
+					<div>Guest</div>
+					<button class="btn btn-primary" v-on:click="addInput(i)">
+						+
+					</button>
+
+				</div>
+
+				<ul class="list-group" >
+					<li class="list-group-item" v-for="(inputArra, i) in inputArray">
+
+							<input type="text"  v-model.trim="inputArra.name" ref="lastGuest">
+							<button v-on:click="remove(i)">Удалить</button>
+						
+					</li>
+				</ul>
+				{{ inputArray }}
+				<button class="btn btn-success" v-bind:disabled="onCheck" 
+								v-on:click="showTable">
+					Send Data
+				</button>
+
+			</div>
+
+			<div class="form-output" v-if="!showBlock">
+				<table>
+					<tr>
+						<td>Email</td>
+						<td>{{ formData.email }}</td>
+					</tr>
+					<tr>
+						<td>Phone</td>
+						<td>{{ formData.phone }}</td>
+					</tr>
+					<tr>
+						<td>Full Name</td>
+						<td>{{ fullName }}</td>
+					</tr>
+					<tr class="guest-tr">
+						<td>Guests</td>
+						
+							<td>
+								<ul class="list-group">
+									<li class="list-group-item" v-for="inputArra in inputArray">
+										{{inputArra.name}}
+									</li>
+								</ul>
+							</td>
+						
+					</tr>
+					
+				</table>
+			</div>
+		</div>
+
+	</div>
+
+
+	<script>
+
+
+		let app = Vue.createApp({
+			data: () => ({
+				formData: {
+					email: '',
+					phone: '',
+					l_name: '',
+					f_name: '',
+				},
+
+				disableButton: false,
+				inputArray: [],
+				inputArraySecond: [],
+				showBlock: true
+			}),
+			methods: {
+				addInput(i) {
+					
+
+					this.inputArray.push({ name: ''});
+
+					this.$nextTick(() => {
+						this.$refs.lastGuest.focus();
+					})
+				},
+				remove(i) {
+					this.inputArray.splice(i, 1);
+				},
+				showTable(){
+							this.inputArray = this.inputArray.filter(inputArra => inputArra.name !== '');
+							return this.showBlock = false;
+				}
+			}, 
+			computed: {
+				fullName() {
+					return `${this.formData.f_name}  ${this.formData.l_name}`;
+				},
+				onCheck() {
+					if(	this.formData.email != '' && 
+							this.formData.phone != '' && 
+							this.formData.l_name != '' &&
+					 		this.formData.l_name != '' && 
+							this.formData.f_name != '' )
+						{
+							this.disableButton =  false;
+						}else {
+						this.disableButton = true;
+						}
+
+					return this.disableButton;
+				}
+			},
+			mounted() {
+				this.$refs.firstInp.focus();
+			}
+		});
+
+		app.mount('.sample');
+
+	</script>
+
+</body>
+</html>
