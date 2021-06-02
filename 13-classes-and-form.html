@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<script src="/js/vue.js"></script>
+	<title>Document</title>
+</head>
+<body>
+	<!-- Популярные вызовы v-for
+	v-for="number in array"
+	v-for="number, key in array"
+
+	v-for="value in obj"
+	v-for="value, key in obj"
+	v-for="value, key , i in obj" { a : 100, b:200 }
+	value = 100; key = a; i = 0
+	value = 200; key = b; i = 1
+
+	(number, i) in numbers можно и скобки для наглядности
+	-->
+	<div class="wrapper">
+		<div class="sample">
+
+				<div class="alert" :class="alertClasses">
+					Some text
+				</div>
+				<div class="form-check">
+					<div>
+						<label class="form-check-label">
+							<input type="radio" class="form-check-input" value="green" v-model="alertType">
+							green
+						</label>
+					</div>
+					<div>
+						<label class="form-check-label">
+							<input type="radio" class="form-check-input" value="orange" v-model="alertType">
+							orange
+						</label>
+					</div>
+					<div>
+						<label class="form-check-label">
+							<input type="radio" class="form-check-input" value="red" v-model="alertType">
+							red
+						</label>
+					</div>
+				</div>
+				<hr>
+				<div class="form-check">
+					<div v-for="(value, name) in tableClasess">
+						<label class=form-check-label>
+							<input  type="checkbox" v-model="tableClasess[name]">
+							{{ name }}
+							</label>
+					</div>
+				</div>
+				<table class="table" :class="tableClasess">
+					<tr>
+						<td>Title</td>
+						<td>Some</td>
+						<td>Nzz</td>
+					</tr>
+					<tr>
+						<td>Title</td>
+						<td>Some</td>
+						<td>Nzz</td>
+					</tr>
+					<tr>
+						<td>Title</td>
+						<td>Some</td>
+						<td>Nzz</td>
+					</tr>
+				</table>
+				{{ alertType }}
+
+				{{ tableClasess }}
+		</div>
+	</div>
+
+
+	<script>
+
+
+		let app = Vue.createApp({
+			data: () => ({
+				alertType : 'green',
+				tableClasess: {
+					'table-hover': false,
+					'table-bordered': false,
+					'table-some': false
+				}
+				
+			}),
+			computed: {
+				alertClasses() {
+					return {
+						'alert-success': this.alertType === 'green',
+						'alert-warning': this.alertType === 'orange',
+						'alert-danger': this.alertType === 'red'
+					}
+				}
+			}
+					
+		});
+
+		app.mount('.sample');
+
+	</script>
+
+</body>
+</html>
