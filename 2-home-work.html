@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <script src="/js/vue.js"></script>
+    <style>
+        .sample {
+            max-width: 300px;
+            margin: 0 auto;
+        }
+        .scroll-wrapper textarea{
+            background-color: green;
+            color: aliceblue;
+            height: 300px;
+            max-width: 300px;
+            margin: 0 auto;
+            overflow-y: scroll;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="sample">
+            <input type="text" v-model="name">
+            <hr>
+            <h2> Hello, {{ name }}</h2>
+
+            <div class="scroll-wrapper" >
+                <textarea v-model="scrollTo()">
+                    Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.
+                    Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.
+                    Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.
+                    Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.
+                    Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.
+                    Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.
+                    Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.
+                    Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.
+                    Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.
+                    Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.
+                    Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.
+                    Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.
+                    Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.
+                    Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.
+                    Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.
+                    Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.
+                    Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.
+                    Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.
+                    Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.
+                    Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.
+                    Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.
+                </textarea>
+            </div>
+            <div class="elements-wrapper">
+                <div>
+                    <label>
+                        <input type="checkbox" name="" id="">
+                        Agree all
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        <input type="checkbox" name="" id="">
+                        Get spam
+                    </label>
+                </div>
+                <div class="spam-wrapper">
+                    <label>
+                        <input type="radio" name="spam" id="">
+                        Email
+                    </label>
+                    <label>
+                        <input type="radio" name="spam" id="">
+                        Phone
+                    </label>
+                </div>
+
+                <button class="btn btn-warning">
+                    Send Data
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        let app = Vue.createApp({
+            data: () => ({
+                name: '',
+                scroll: Number
+            }),
+            methods: {
+                scrollTo(){
+                    console.log(this.scroll);
+                }
+                
+            }
+        });
+
+        app.mount('.sample');
+
+    </script>
+
+</body>
+
+</html>
