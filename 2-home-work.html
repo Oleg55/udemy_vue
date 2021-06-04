@@ -15,7 +15,7 @@
             max-width: 300px;
             margin: 0 auto;
         }
-        .scroll-wrapper textarea{
+        .scroll-wrapper {
             background-color: green;
             color: aliceblue;
             height: 300px;
@@ -30,12 +30,9 @@
 <body>
     <div class="wrapper">
         <div class="sample">
-            <input type="text" v-model="name">
-            <hr>
-            <h2> Hello, {{ name }}</h2>
 
-            <div class="scroll-wrapper" >
-                <textarea v-model="scrollTo()">
+            <hr>
+            <div class="scroll-wrapper" v-on:scroll='Scroll'>
                     Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.
                     Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.
                     Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.
@@ -57,24 +54,26 @@
                     Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.
                     Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.
                     Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.
-                </textarea>
             </div>
-            <div class="elements-wrapper">
+            <hr>
+
+            {{ scroll }}
+            <div class="elements-wrapper" v-if="inButtom">
                 <div>
                     <label>
-                        <input type="checkbox" name="" id="">
+                        <input type="checkbox" value="agree" v-model="alertType1">
                         Agree all
                     </label>
                 </div>
                 <div>
                     <label>
-                        <input type="checkbox" name="" id="">
+                        <input type="checkbox" value="spam" v-model="alertType2">
                         Get spam
                     </label>
                 </div>
-                <div class="spam-wrapper">
+                <div class="spam-wrapper" v-if="alertType2"> 
                     <label>
-                        <input type="radio" name="spam" id="">
+                        <input type="radio" name="spam" id=""> 
                         Email
                     </label>
                     <label>
@@ -83,7 +82,7 @@
                     </label>
                 </div>
 
-                <button class="btn btn-warning">
+                <button class="btn btn-warning" v-bind:disabled="!alertType1">
                     Send Data
                 </button>
             </div>
@@ -94,15 +93,27 @@
 
         let app = Vue.createApp({
             data: () => ({
-                name: '',
-                scroll: Number
+                scroll: 0,
+                heightScroll: 0,
+                inButtom: false,
+                alertType1: false,
+				alertType2: false,
             }),
             methods: {
-                scrollTo(){
-                    console.log(this.scroll);
+                Scroll(e) {
+                    this.scroll = e.target.scrollTop;
+                    this.heightScroll = e.target.scrollHeight - e.target.clientHeight;
+                    
+                    if(this.heightScroll  == this.scroll){
+                        this.inButtom = true;
+                    }else {
+                        this.inButtom = false;
+                    }
                 }
-                
-            }
+            },
+            computed: {
+
+			}
         });
 
         app.mount('.sample');
