@@ -25,17 +25,17 @@
 						<div v-for="(value, i) in info">
 							<label>
 								{{ info[i].name}}
-								<i class="fa fa-times-circle-o text-success"></i>
-								<i class="fa fa-times-circle-o text-danger"></i>
+								<span v-if="info[i].value">
+									<i class="fa "   v-bind:class="info[i].value.match(info[i].pattern) ? 'fa-times-circle-o text-success' : 'fa-minus-circle text-danger'"></i>
+								</span>
 								{{ info[i].value }}
 								<input class="form-control "  type="text"  v-model.trim="info[i].value" v-on:change="alertStyles">
 							</label>
 						</div>
 					</div>
 
-
 				</div>
-				<button class="btn btn-primary">
+				<button class="btn btn-primary" v-bind:disabled="unBlockButton">
 					Send Data
 				</button>
 			</form>
@@ -83,27 +83,39 @@
 				progressFullWidth: 0,
 			}),
 			methods: {
-				progress() {
-					
-				}
+
 			},
 			computed: {		
 				alertStyles() {
 
 					let mass = [];
-						this.info.map((item) => {
+						this.info.map((item,i) => {
 						if (item.value != ''){
 							mass.push(1);
 							let result =	item.value.match(item.pattern);
+							if (result != null) {
+								Lmass = mass.length;
+								this.progressFullWidth =  mass.length * 20;
+							}
 							console.log(result);
 						} 
 						});
-					Lmass = mass.length;
-					this.progressFullWidth =  mass.length * 20;
+					
 								
 				},
+				unBlockButton() {
+					if (this.progressFullWidth == 100) {
+						console.log('unblock');
+						return  false;
+					}else {
+						console.log('block');
 
-			}
+						return true;
+					}
+				}
+
+			},
+				
 
 
 
