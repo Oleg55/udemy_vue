@@ -73,7 +73,7 @@
                 </div>
                 <div class="spam-wrapper" v-if="alertType2"> 
                     <label>
-                        <input type="radio" name="spam" id=""> 
+                        <input type="radio" name="spam" id="" v-bind:checked="true"> 
                         Email
                     </label>
                     <label>
@@ -97,17 +97,16 @@
                 heightScroll: 0,
                 inButtom: false,
                 alertType1: false,
-				alertType2: false,
+								alertType2: false,
             }),
             methods: {
                 Scroll(e) {
-                    this.scroll = e.target.scrollTop;
-                    this.heightScroll = e.target.scrollHeight - e.target.clientHeight;
+										let div = e.target;
+                    this.scroll = div.scrollTop;
+                    this.heightScroll = div.scrollHeight - div.clientHeight;
                     
                     if(this.heightScroll  == this.scroll){
                         this.inButtom = true;
-                    }else {
-                        this.inButtom = false;
                     }
                 }
             },

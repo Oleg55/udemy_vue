@@ -89,19 +89,16 @@
 				alertStyles() {
 
 					let mass = [];
-						this.info.map((item,i) => {
-						if (item.value != ''){
-							mass.push(1);
+					let Lmass = mass.length;
+				
+						this.info.map((item) => {
 							let result =	item.value.match(item.pattern);
 							if (result != null) {
-								Lmass = mass.length;
-								this.progressFullWidth =  mass.length * 20;
+								mass.push(1);	
 							}
-							console.log(result);
-						} 
 						});
-					
-								
+						this.progressFullWidth =  mass.length * 20;
+				
 				},
 				unBlockButton() {
 					if (this.progressFullWidth == 100) {
