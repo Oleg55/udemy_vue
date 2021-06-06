@@ -15,7 +15,7 @@
 		  <div class="sample">
 				<form>
 				<div class="progress">
-					<div class="progress-bar"></div>
+					<div class="progress-bar" v-bind:style="progressStyles"></div>
 				</div>
 				<div>
 					<div class="form-group" v-for="(field, i) in info">
@@ -27,11 +27,11 @@
 						'fa-exclamation-circle text-danger'">
 						</span>
 						<input 	type="text" class="form-control" 
-										v-on:input="onInput($event.target.value, i)" 
+										v-on:input="onInput($event.target.value, i),fieldsDone" 
 										v-bind:value="field.value">
 					</div>
 				</div>
-				<button class="btn btn-primary">
+				<button class="btn btn-primary" v-bind:disabled="!formReady">
 					Send Data
 				</button>
 			</form>
@@ -80,14 +80,19 @@
 			}),
 			computed:{
 				fieldsDone() {
-					return //[0, info.length] this.info.reduce(element)
+				//	return //[0, info.length] this.info.reduce(element)
+				let sum = this.info.reduce(function(total, item){
+					return total + item.valid;
+				},0);
+
+				return sum;
 				},
 				formReady() {
 					return this.fieldsDone === this.info.length;
 				},
 				progressStyles() {
 					return {
-						width: 0 //	fieldsDone
+						'width': this.fieldsDone * (100 / this.info.length) + '%'
  					};
 				}
 			},
