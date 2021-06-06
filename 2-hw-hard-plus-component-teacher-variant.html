@@ -18,18 +18,17 @@
 					<div class="progress-bar" v-bind:style="progressStyles"></div>
 				</div>
 				<div>
-					<div class="form-group" v-for="(field, i) in info">
-						<label>{{ field.name }}</label>
-						<span v-if="field.activated"
-						class="fa"
-						v-bind:class = "field.valid ?
-						'fa-check-circle text-success':
-						'fa-exclamation-circle text-danger'">
-						</span>
-						<input 	type="text" class="form-control" 
-										v-on:input="onInput($event.target.value, i),fieldsDone" 
-										v-bind:value="field.value">
-					</div>
+
+					<app-application 
+						v-for="(field, i) in info"
+						v-bind:name="field.name"
+						v-bind:value="field.value"
+						v-bind:valid="field.valid"
+						v-bind:activated="field.activated"
+						v-on:step="	onInput($event,i)"
+					>
+	
+					</app-application>
 				</div>
 				<button class="btn btn-primary" v-bind:disabled="!formReady">
 					Send Data
@@ -47,8 +46,37 @@
 		</div>
 	 </div>
 	<script>
+
+		let AppAplication = {
+			props: ['name','value','valid', 'activated'],
+			template: `<div class="form-group" >
+						<label>{{ name }}</label>
+						<span v-if="activated"
+						class="fa"
+						v-bind:class = "alertClass">
+						</span>
+						<input 	type="text" class="form-control" 
+										v-on:input="onPress($event.target.value, i)"
+										v-bind:value="value"
+										>
+									
+					</div>`,
+					methods: {
+							onPress(value,i) {
+							  this.$emit('step', value);
+						}
+					},
+					computed: {
+						alertClass() {
+							return {
+								'fa-exclamation-circle text-danger': this.valid == false,
+								'fa-check-circle text-success': this.valid == true
+							}
+						}
+					}
+		}
 		
-		Vue.createApp({
+		let app = Vue.createApp({
 			data: () => ({
 				info: [
 					{
@@ -97,10 +125,14 @@
 				}
 			},
 			methods: {
-				onInput(value, i) {
-					let field = this.info[i];
+				onInput(value, i, event) {
+					console.log(value);
+					console.log(i);
+					console.log(event);
 
-					field.value = value.trim(); 
+					let field = this.info[i];
+					field.value = value.trim();
+					console.log(field.value);
 					field.activated = true; 
 					field.valid = 	field.pattern.test(field.value);
 				}
@@ -111,7 +143,11 @@
 					element.valid = false // hw element.pattern.test(element.value)
 				});
 			}
-		}).mount('.sample');
+		});
+
+		app.component('app-application', AppAplication);
+
+		app.mount('.sample');
 	</script>
 </body>
 </html>
