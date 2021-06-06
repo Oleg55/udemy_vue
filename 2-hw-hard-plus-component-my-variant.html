@@ -18,13 +18,13 @@
 					<div class="progress-bar" v-bind:style="progressStyles"></div>
 				</div>
 				<div>
-				{{progressStyles}}
+
 					<app-application 
 						v-for="(field, i) in info"
 						v-bind:name="field.name"
 						v-bind:value="field.value"
 						v-bind:valid="field.valid"
-						v-bind:key="i"
+						v-bind:activated="field.activated"
 						v-on:step="	onInput($event,i)"
 					>
 	
@@ -48,10 +48,7 @@
 	<script>
 
 		let AppAplication = {
-			props: ['name','value','valid'],
-			data: () => ({
-				activated: false
-			}),
+			props: ['name','value','valid', 'activated'],
 			template: `<div class="form-group" >
 						<label>{{ name }}</label>
 						<span v-if="activated"
@@ -65,8 +62,7 @@
 									
 					</div>`,
 					methods: {
-							onPress(value) {
-								this.activated = true;
+							onPress(value,i) {
 							  this.$emit('step', value);
 						}
 					},
@@ -76,8 +72,7 @@
 								'fa-exclamation-circle text-danger': this.valid == false,
 								'fa-check-circle text-success': this.valid == true
 							}
-						},
-
+						}
 					}
 		}
 		
@@ -130,15 +125,22 @@
 				}
 			},
 			methods: {
-				onInput(value, i) {
+				onInput(value, i, event) {
+					console.log(value);
+					console.log(i);
+					console.log(event);
+
 					let field = this.info[i];
 					field.value = value.trim();
+					console.log(field.value);
+					field.activated = true; 
 					field.valid = 	field.pattern.test(field.value);
 				}
 			},
 			created() {
 				return this.info.forEach(element => {
-					element.valid = element.pattern.test(element.value); // hw element.pattern.test(element.value)
+					element.activated = false, // hw element.value != ''
+					element.valid = false // hw element.pattern.test(element.value)
 				});
 			}
 		});
