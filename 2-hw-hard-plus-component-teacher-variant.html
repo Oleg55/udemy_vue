@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="ru">
+<head>
+	 <meta charset="UTF-8">
+	 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	 <title>1</title>
+	 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	 <link rel="stylesheet" href="css/font-awesome.min.css">
+	 <link href="css/style.css" rel="stylesheet">
+	 <script src="js/vue.js"></script>
+</head>
+<body>
+	 <div class="wrapper">
+		  <div class="sample">
+				<form>
+				<div class="progress">
+					<div class="progress-bar" v-bind:style="progressStyles"></div>
+				</div>
+				<div>
+					<div class="form-group" v-for="(field, i) in info">
+						<label>{{ field.name }}</label>
+						<span v-if="field.activated"
+						class="fa"
+						v-bind:class = "field.valid ?
+						'fa-check-circle text-success':
+						'fa-exclamation-circle text-danger'">
+						</span>
+						<input 	type="text" class="form-control" 
+										v-on:input="onInput($event.target.value, i),fieldsDone" 
+										v-bind:value="field.value">
+					</div>
+				</div>
+				<button class="btn btn-primary" v-bind:disabled="!formReady">
+					Send Data
+				</button>
+			</form>
+			<pre>{{ info }}</pre>
+			<div>
+				<table class="table table-bordered">
+					<tr>
+						<td></td>
+						<td></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	 </div>
+	<script>
+		
+		Vue.createApp({
+			data: () => ({
+				info: [
+					{
+						name: 'Name',
+						value: '',
+						pattern: /^[a-zA-Z ]{2,30}$/
+					},
+					{
+						name: 'Phone',
+						value: '',
+						pattern: /^[0-9]{7,14}$/
+					},
+					{
+						name: 'Email',
+						value: '',
+						pattern: /.+/
+					},
+					{
+						name: 'Some Field 1',
+						value: '',
+						pattern: /.+/
+					},
+					{
+						name: 'Some Field 2',
+						value: '',
+						pattern: /.+/
+					}
+				]
+			}),
+			computed:{
+				fieldsDone() {
+				//	return //[0, info.length] this.info.reduce(element)
+				let sum = this.info.reduce(function(total, item){
+					return total + item.valid;
+				},0);
+
+				return sum;
+				},
+				formReady() {
+					return this.fieldsDone === this.info.length;
+				},
+				progressStyles() {
+					return {
+						'width': this.fieldsDone * (100 / this.info.length) + '%'
+ 					};
+				}
+			},
+			methods: {
+				onInput(value, i) {
+					let field = this.info[i];
+
+					field.value = value.trim(); 
+					field.activated = true; 
+					field.valid = 	field.pattern.test(field.value);
+				}
+			},
+			created() {
+				return this.info.forEach(element => {
+					element.activated = false, // hw element.value != ''
+					element.valid = false // hw element.pattern.test(element.value)
+				});
+			}
+		}).mount('.sample');
+	</script>
+</body>
+</html>

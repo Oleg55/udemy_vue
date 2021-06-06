@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1</title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link href="css/style.css" rel="stylesheet">
+    <script src="js/vue.js"></script>
+</head>
+<body>
+<div class="wrapper">
+	<div class="sample">
+		<div class="Todo">
+			<h1>Your actions</h1>
+				<app-action 
+					v-for="(action,i) in todoList"
+					v-bind:title="action.title"
+					v-bind:current="action.current"
+					v-bind:max="action.max"
+					v-on:step="onNext(i, $event)"
+					></app-action>
+		</div>
+		<pre>{{ todoList }}</pre>
+	</div>
+</div>
+<script>
+
+	let AppAction = {
+
+		props: ['title','current','max'],
+		template: `
+			<div class="action">
+				<div class="alert" :class="alertClass">
+					<h2>{{ title }}</h2>
+					<div class="progress">
+						<div :style="progressStyles" class="progress-bar"></div>
+					</div>
+					<hr>
+					<h3 v-if="false">All done!</h3>
+					<button v-else type="button" class="btn btn-primary" @click="btnClicked">
+						I make step!
+					</button>
+				</div>
+			</div>`,
+			computed: {
+				rel() {
+					return this.current / this.max;
+				},
+				alertClass() {
+					return {
+						'alert-danger': this.rel < 0.25,
+						'alert-warning': this.rel >= 0.25 && this.rel < 0.75,
+						'alert-success': this.rel >= 0.75
+					}
+				},
+				progressStyles() {
+					return {width: (this.rel * 100) + '%'}
+				}
+			},
+			methods: {
+				btnClicked() {
+					if(this.current < this.max){
+						this.$emit('step', { });
+					}
+					
+
+				}
+			}
+	};
+
+	let app = Vue.createApp({
+		data: () => ({
+			todoList: [
+				{ title: 'First action', current: 1, max: 5 },
+				{ title: 'Other work', current: 2, max: 10 },
+				{ title: 'Some fun', current: 4, max: 7 }
+			]
+		}),
+		methods: {
+			onNext(i,event){
+				console.log(i,event);
+				// this.todoList[i].current++;
+			},
+
+		}
+	});
+
+	app.component('app-action', AppAction);
+
+	app.mount('.sample');
+
+</script>
+</body>
+</html>
