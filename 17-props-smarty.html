@@ -24,8 +24,10 @@
 						v-bind:name="field.name"
 						v-bind:value="field.value"
 						v-bind:valid="field.valid"
+						v-bind:activated="field.activated"
 						v-bind:key="i" 
-						v-on:step="	onInput($event,i)"
+						v-on:input="onInput(i,$event)"
+						v-on:click="test"
 					>
 	
 					</app-application>
@@ -48,10 +50,13 @@
 	<script>
 
 		let AppAplication = {
-			props: ['name','value','valid'],
-			data: () => ({
-				activated: false
-			}),
+			props: {
+				name: String,
+				value: String,
+				valid: Boolean,
+				activated: Boolean,
+			},
+
 			template: `<div class="form-group" >
 						<label>{{ name }}</label>
 						<span v-if="activated"
@@ -59,17 +64,12 @@
 						v-bind:class = "alertClass">
 						</span>
 						<input 	type="text" class="form-control" 
-										v-on:input="onPress($event.target.value, i)"
+										
 										v-bind:value="value"
 										>
 									
 					</div>`,
-					methods: {
-							onPress(value) {
-								this.activated = true;
-							  this.$emit('step', value);
-						}
-					},
+
 					computed: {
 						alertClass() {
 							return {
@@ -130,14 +130,20 @@
 				}
 			},
 			methods: {
-				onInput(value, i) {
+				onInput(i,e) {
+					console.log(e.target.value,i);
 					let field = this.info[i];
-					field.value = value.trim();
+					field.value = e.target.value.trim();
 					field.valid = 	field.pattern.test(field.value);
+					field.activated = true;
+				},
+				test(e) {
+					console.log(e);
 				}
 			},
 			created() {
 				return this.info.forEach(element => {
+					element.activated = element.value !== ''; // hw element.pattern.test(element.value)
 					element.valid = element.pattern.test(element.value); // hw element.pattern.test(element.value)
 				});
 			}

@@ -25,7 +25,7 @@
 						v-bind:value="field.value"
 						v-bind:valid="field.valid"
 						v-bind:key="i" 
-						v-on:step="	onInput($event,i)"
+						v-on:input="	onInput($event,i)"
 					>
 	
 					</app-application>
@@ -49,6 +49,7 @@
 
 		let AppAplication = {
 			props: ['name','value','valid'],
+			emits: {input: null },
 			data: () => ({
 				activated: false
 			}),
@@ -67,7 +68,7 @@
 					methods: {
 							onPress(value) {
 								this.activated = true;
-							  this.$emit('step', value);
+							  this.$emit('input', value);
 						}
 					},
 					computed: {
