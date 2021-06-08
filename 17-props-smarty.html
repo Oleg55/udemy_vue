@@ -25,9 +25,10 @@
 						v-bind:value="field.value"
 						v-bind:valid="field.valid"
 						v-bind:activated="field.activated"
+						successclasses="fa-bath text-primary"
 						v-bind:key="i" 
 						v-on:input="onInput(i,$event)"
-						v-on:click="test"
+						
 					>
 	
 					</app-application>
@@ -55,6 +56,23 @@
 				value: String,
 				valid: Boolean,
 				activated: Boolean,
+				successclasses: {
+					type: String,
+					default: 'fa-check-circle text-success'
+				},
+				errorclasses: {
+					type: String,
+					default: 'fa-exclamation-circle text-danger'
+				}
+			},
+			computed: {
+						alertClass() {
+							return {
+								[this.errorclasses]:this.valid == false,
+								[this.successclasses]: this.valid == true
+							}
+						},
+
 			},
 
 			template: `<div class="form-group" >
@@ -70,15 +88,7 @@
 									
 					</div>`,
 
-					computed: {
-						alertClass() {
-							return {
-								'fa-exclamation-circle text-danger': this.valid == false,
-								'fa-check-circle text-success': this.valid == true
-							}
-						},
-
-					}
+					
 		}
 		
 		let app = Vue.createApp({
@@ -137,9 +147,7 @@
 					field.valid = 	field.pattern.test(field.value);
 					field.activated = true;
 				},
-				test(e) {
-					console.log(e);
-				}
+				
 			},
 			created() {
 				return this.info.forEach(element => {
