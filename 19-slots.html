@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <script src="/js/vue.js"></script>
+	<link rel="stylesheet" href="css/font-awesome.min.css">
+</head>
+<body>
+	 <div class="wrapper">
+		  <div class="sample">
+				<h1>Slots</h1>
+				<hr>
+				<app-modal 
+					title="Hi there!" 
+					v-bind:show="false">
+					<!-- go to slot -->
+					<div class="alert alert-danger">
+						Check errors! Alredy: {{ i }}
+					</div>
+					<hr>
+					<p>Add rerun app.</p>
+					<p v-on:click="i++">Close now.</p>
+					<!-- go to slot -->
+
+				</app-modal>
+				<app-modal 
+					v-bind:show="true">
+					<p>And rerun app.</p>
+					<!-- go to slot  name="header" (v-slot = # и можно так #header)-->
+					<template v-slot:header>
+						<h2>Hi there!</h2>
+					</template>
+					<!-- go to slot  name="header"-->
+				</app-modal>
+			</div>
+	 </div>
+	<script>
+
+		let appModal = {
+			props: ['title','show'], // лучше использовать умные пропсы с required и с default
+			template: `
+				<div class="modal" v-bind:class="rootClasses">
+					<div class="modal-dialog">
+    				<div class="modal-content">
+							<div class="modal-header">
+								<slot name="header">
+									<h5 class="modal-title">{{ title }}</h5>
+								</slot>
+							</div>
+							<div class="modal-body">
+								<slot>
+
+								</slot>
+							</div>
+							<div class="modal-footer">
+								<button class="btn btn-primary">X</button>
+							</div>
+						</div>
+					</div>
+				</div>`,
+				computed: {
+					rootClasses() {
+						return {
+							'd-block': this.show
+						}
+					}
+				},
+				mounted() {
+					console.log(this.$slots.default());
+				}
+		};
+
+		let app =	Vue.createApp({
+
+			data: () => ({
+				i: 1
+			}),
+
+		});
+
+		app.component('appModal', appModal);
+		app.mount('.sample');
+
+	</script>
+</body>
+</html>
