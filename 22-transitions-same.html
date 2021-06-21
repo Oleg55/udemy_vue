@@ -36,11 +36,12 @@
 			  	<button class="btn btn-primary" v-on:click="showAlert = !showAlert">
 					Toggle
 				  </button>
+					<!-- vue 2 keys required -->
 				  <transition name="fade" mode="out-in">
 					<div class="alert alert-success" v-if="showAlert" >
 						<p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Doloribus, ut.	</p>
 					</div>
-					<h2 class="alert alert-danger" v-else="!showAlert">Hi there!</h2>
+					<div class="alert alert-danger" v-else="!showAlert">Hi there!</div>
 				  </transition>
 			</div>
 	 </div>
